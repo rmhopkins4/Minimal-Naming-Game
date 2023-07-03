@@ -31,14 +31,14 @@ class Agent():
     
     def generate_new_word(self, max_syllables = 3):
         
-        num_syllables = random.randint(1, max_syllables)
+        #num_syllables = random.randint(1, max_syllables)
         
         vowels = "aeiou"
         consonants = "bcdfghjklmnpqrstvwxyz"
         nasals = "nm"
         
         word = ''
-        for _ in range(num_syllables):
+        for _ in range(max_syllables):
             pattern = random.choice(['CV', 'V', 'CVN', 'VN'])
             for char in pattern:
                 if char == 'C':
