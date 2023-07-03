@@ -1,5 +1,7 @@
 import random
 
+num_agreements = 0
+
 class Agent():
     def __init__(self, name):
         self.name = name
@@ -11,33 +13,39 @@ class Agent():
             word = random.choice(tuple(self.vocabulary))
         # or generate one at random if one does not exist
         else:
-            word = generate_new_word()
+            word = self.generate_new_word()
+            self.vocabulary.append(word)
             
         # if listener knows the same word, consensus is reached
         if word in listener.vocabulary:
             self.vocabulary = [word]
             listener.vocabulary = [word]
+            # track agreement
+            return 1
+            
         # if the listener does not know the word, add it to their vocabulary
         else:
             listener.vocabulary.append(word)
-            
-            
-def generate_new_word(num_syllables = 3):
-    vowels = "aeiou"
-    consonants = "bcdfghjklmnpqrstvwxyz"
-    nasals = "nm"
+            # no agreement
+            return 0
     
-    word = ''
-    for _ in range(num_syllables):
-        pattern = random.choice(['CV', 'V', 'CVN', 'VN'])
-        for char in pattern:
-            if char == 'C':
-                word += random.choice(consonants)
-            elif char == 'V':
-                word += random.choice(vowels)
-            elif char == 'N':
-                word += random.choice(nasals)
-                
-    return word
-
-print(generate_new_word())
+    def generate_new_word(self, max_syllables = 3):
+        
+        num_syllables = random.randint(1, max_syllables)
+        
+        vowels = "aeiou"
+        consonants = "bcdfghjklmnpqrstvwxyz"
+        nasals = "nm"
+        
+        word = ''
+        for _ in range(num_syllables):
+            pattern = random.choice(['CV', 'V', 'CVN', 'VN'])
+            for char in pattern:
+                if char == 'C':
+                    word += random.choice(consonants)
+                elif char == 'V':
+                    word += random.choice(vowels)
+                elif char == 'N':
+                    word += random.choice(nasals)
+                    
+        return word
