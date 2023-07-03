@@ -13,7 +13,7 @@ class Agent():
             word = random.choice(tuple(self.vocabulary))
         # or generate one at random if one does not exist
         else:
-            word = self.generate_new_word()
+            word = self.__generate_new_word()
             self.vocabulary.append(word)
             
         # if listener knows the same word, consensus is reached
@@ -29,7 +29,7 @@ class Agent():
             # no agreement
             return 0
     
-    def generate_new_word(self, max_syllables = 3):
+    def __generate_new_word(self, max_syllables = 3):
         
         #num_syllables = random.randint(1, max_syllables)
         

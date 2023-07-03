@@ -9,16 +9,34 @@ def run_simulation(agents, steps):
     
     done = None
     
-    for step in range(steps):
-        speaker, listener = random.sample(agents, k=2)
-        num_agreements += speaker.communicate(listener)
-        agreement_rates.append((num_agreements / (step+1)) * 100)
+    # steps < 0 --> continue until full agreement
+    if steps < 0:
+        step = 0
+        while not done:
+            speaker, listener = random.sample(agents, k=2)
+            num_agreements += speaker.communicate(listener)
+            agreement_rates.append((num_agreements / (step+1)) * 100)
+            
+            # check for complete agreement
+            if __check_agents(agents=agents):
+                if not done:
+                    done = step
+                    
+            step += 1
+        steps = step
         
-        # check for complete agreement
-        if check_agents(agents=agents):
-            if not done:
-                done = step
-    
+    # otherwise, do a set number of steps
+    else:
+        for step in range(steps):
+            speaker, listener = random.sample(agents, k=2)
+            num_agreements += speaker.communicate(listener)
+            agreement_rates.append((num_agreements / (step+1)) * 100)
+            
+            # check for complete agreement
+            if __check_agents(agents=agents):
+                if not done:
+                    done = step
+        
     # print final results
     for agent in agents:
         print(f"{agent.name} vocab: {agent.vocabulary}")
@@ -34,7 +52,7 @@ def run_simulation(agents, steps):
     plt.show()
 
 
-def check_agents(agents):
+def __check_agents(agents):
     # check if agents is empty
     if len(agents) == 0:
         return True
