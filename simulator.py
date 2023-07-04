@@ -22,8 +22,15 @@ def run_simulation(agents, steps):
                 if not done:
                     done = step
                     
+            # status updates
+            if step % 100000 == 0:
+                print(f"Agreement rate after step {step}: {round(agreement_rates[step], 2)}%")
+            
             step += 1
         steps = step
+        
+        # print final result for auto-steps
+        print(f"{agents[0].name} vocab: {agents[0].vocabulary}")
         
     # otherwise, do a set number of steps
     else:
@@ -36,10 +43,10 @@ def run_simulation(agents, steps):
             if __check_agents(agents=agents):
                 if not done:
                     done = step
-        
-    # print final results
-    for agent in agents:
-        print(f"{agent.name} vocab: {agent.vocabulary}")
+            
+        # print final results for set steps
+        for agent in agents:
+            print(f"{agent.name} vocab: {agent.vocabulary}")
         
     
     # plot agreement-rates
